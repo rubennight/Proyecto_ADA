@@ -94,13 +94,21 @@ const Ordenamientos = ({ libros }) => {
   };
   
   const mergeSort = async () => {
+  //Nuevamente una función de flecha la cual es asincrona ya que espera una promesa. 
+ 
     const merge = (left, right) => {
+      //abrimos esta función jeje la cual recibe dos argumentos "left" y "right", los cuales van a representar los "dos lados" o la partición de la lista que se unirán en una
+      //Se declaran tres variables, una siendo "result" que es la "suma" o "unión" de estas dos listas o argumentos en los que se separará la original.
+      //Esta primer variable de result se desclara vacía, para llenarla más tarde.
+      //también tenemos la variable "leftIndex" y "rightIndex" que representarán los indices de los argumentos o listas que recibiremos de "left" y "right".
       let result = [];
       let leftIndex = 0;
       let rightIndex = 0;
     
       while (leftIndex < left.length && rightIndex < right.length) {
+      //Mientras el valor de "leftIndex" sea menor que el largo de nuestro argumento "left" y el valor de "rightIndex" sea menor que el largo del argumento "right", entonces:
         if (left[leftIndex].id < right[rightIndex].id) {
+        //Habrá una condición donde, si el "id"  
           result.push(left[leftIndex]);
           leftIndex++;
         } else {

@@ -17,7 +17,7 @@ const libros = [
   libro(7, 3, "Libro de Distopía", "Autor 4", 2005, "Distopía"),
   libro(5, 4, "Matar a un ruiseñor", "Harper Lee", 1960, "Misterio, thriller"),
   libro(10, 4, "Otro Thriller", "Autor 5", 2018, "Misterio, thriller"),
-  libro(4, 5, "El Alquimista", "Paulo Coelho", 1988, "Ficción, filosofía"),
+  libro(4, 5, "Juego de Tronos", "George R R Martin", 1988, "Fantasía"),
   libro(9, 5, "Breve historia del tiempo", "Stephen Hawking", 1988, "Divulgación científica")
 ];
 
