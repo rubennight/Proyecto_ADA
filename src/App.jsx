@@ -44,7 +44,7 @@ function App() {
         <h3>Grupo: D</h3>
         <h3>Modalidad: Semiescolarizado</h3>
         <h3>Profesor: Vanessa del Rosario Alcala Ramirez</h3>
-        <h3>Equipo: Rubén Jiménez Navarro y Adán Urioka</h3>         
+        <h3>Equipo: Rubén Jiménez Navarro y Adán Gurrola Grijalva</h3>         
       </Box>
       
 
