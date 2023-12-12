@@ -1,5 +1,5 @@
 # Lenguaje: Javascript con React + Vite
-# Alumno: Rubén Jiménez Navarro
+# Equipo: Rubén Jiménez Navarro y Adán Urioka  
 # Profesora: Vanessa del Rosario Alcala Ramirez
 _______________________________________________________________________________
 
