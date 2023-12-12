@@ -231,34 +231,42 @@ const Ordenamientos = ({ libros }) => {
       await performHeapSort();
     };
     //Parte de Rubén
-    const quickSort = async () => {
-      const partition = async (arr, low, high) => {
-        const pivot = arr[high].id;
-        let i = low - 1;
+  const quickSort = async () => {
+  //Nuevamente, método quickSort que si es el más rápido del oeste.   
+  // Usaremos nuevamente el estilo recursivo que anteriormente usamos.
+    const partition = async (arr, low, high) => {
+    //creamos este método par hacer la partición, el cual recibe en si 3 elementos, que son un arreglo arr, low y high.
+      //Se declara una constante pivot que en si es un pivote para hacer las comparaciones a partir del "id" del elemento en la posición/index con valor "high".
+      //Después una variable i que es igual a low - 1.       
+      const pivot = arr[high].id;
+      let i = low - 1;
 
-        for (let j = low; j < high; j++) {
-          if (arr[j].id < pivot) {
-            i++;
-            // Swap libros
-            [arr[i], arr[j]] = [arr[j], arr[i]];
+      for (let j = low; j < high; j++) {
+      //Este for va recorrer el total del valor de high, donde por cada elemento hará la siguiente comparación  
+        if (arr[j].id < pivot) {
+        //Si, el "id" del elemento en la posición "j" es menor al pivote, si esto se cumple entonces:
+          //se aumenta en +1 el valor de "i"  
+          i++;
+          //Y se hace este cambio de posición entre los siguientes elementos.
+          [arr[i], arr[j]] = [arr[j], arr[i]];
 
-            // Update state to trigger re-render after each swap
-            setSortedLibros([...arr]);
+          //Se actualiza la lista con los cambios hecho en nuestra lista arr
+          setSortedLibros([...arr]);
 
-            // Wait for 1000 miliseconds
-            await new Promise(resolve => setTimeout(resolve, 1000));
-          }
+          //Esperamos 1000 milisegundos
+          await new Promise(resolve => setTimeout(resolve, 1000));
         }
+      }
 
-        // Swap libros
-        [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
+      //terminado este for se hace el siguiente cambio a partir del elemento en la posición con el valor de "high"
+      [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
 
-        // Update state to trigger re-render after each swap
-        setSortedLibros([...arr]);
+      //Se actualiza la lista/arreglo
+      setSortedLibros([...arr]);
 
-        // Wait for 1000 miliseconds
+        //esperamos
         await new Promise(resolve => setTimeout(resolve, 1000));
-
+        //y regresamos el valor de i + 1
         return i + 1;
       };
 
