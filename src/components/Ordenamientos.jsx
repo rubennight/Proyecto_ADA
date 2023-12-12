@@ -2,6 +2,7 @@
   import React, { useState } from 'react';
 
 //Se declara una función de flecha que recibe libros como argumento. 
+//"libros" como veremos más adelante es una lista de los mismos, los cuales en total son 10. (Vease en App.jsx la declaración de la constante libros)
 const Ordenamientos = ({ libros }) => {
   //Se declara también un useState (estado) con una matriz [que llevará dentro una copia de la martiz libros que recibe como argumento]
   //sortedLibros para almacenar estado
@@ -97,7 +98,8 @@ const Ordenamientos = ({ libros }) => {
   //Nuevamente una función de flecha la cual es asincrona ya que espera una promesa. 
  
     const merge = (left, right) => {
-      //abrimos esta función jeje la cual recibe dos argumentos "left" y "right", los cuales van a representar los "dos lados" o la partición de la lista que se unirán en una
+      //abrimos esta función jeje la cual recibe dos argumentos "left" y "right", los cuales van a representar los "dos lados" o la partición de la lista que se unirán en una (de ahí la palabra merge).
+      //Este método/función estará dentro de otro que usaremos después de este, basicamente este método nos dará el resultado final de lo que buscamos.
       //Se declaran tres variables, una siendo "result" que es la "suma" o "unión" de estas dos listas o argumentos en los que se separará la original.
       //Esta primer variable de result se desclara vacía, para llenarla más tarde.
       //también tenemos la variable "leftIndex" y "rightIndex" que representarán los indices de los argumentos o listas que recibiremos de "left" y "right".
@@ -108,92 +110,124 @@ const Ordenamientos = ({ libros }) => {
       while (leftIndex < left.length && rightIndex < right.length) {
       //Mientras el valor de "leftIndex" sea menor que el largo de nuestro argumento "left" y el valor de "rightIndex" sea menor que el largo del argumento "right", entonces:
         if (left[leftIndex].id < right[rightIndex].id) {
-        //Habrá una condición donde, si el "id"  
+        //Habrá una condición donde, si el "id" del elemento en la lista "left" con el índice de valor "leftIndex" es menor a el "id" del elemento de la lista "right" con indice de valor "rightIndex", entonces: 
+        //Bueno, si esta condición se cumple entonces significa que este elemento en particular pertenece a la lista del lado izquierdo o "left" 
+        //y se suma +1 el valor de leftIndex 
           result.push(left[leftIndex]);
           leftIndex++;
         } else {
+        //Si la condición anterior no se cumple, entonces pertenece a la lista "right" y se suma +1 al valor de rightIndex, esta suma es para seguir recorriendo la lista.   
           result.push(right[rightIndex]);
           rightIndex++;
         }
       }
-    
+      //Cuando termina de revisar todos los elementos estos se unen o en este caso se concatenan ambas listas right y left y nos regresa el resultado del mismo. 
       return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
     };
     
-      const performMergeSort = async (arr) => {
-        const len = arr.length;
-        if (len <= 1) {
-          return arr;
-        }
+    const performMergeSort = async (arr) => {
+    //En este método/función vamos a usar al final el método que hicimos anteriormente a este. En este método/función como es de esperar es async-rono jeje
+    //Este mismo recibirá un arreglo/lista "arr" el cual basicamente es la lista de "libros"
+    //Se declara la constante "len", la cual tiene como valor el largo de la lista arr.   
+      const len = arr.length;
+      if (len <= 1) {
+      //Esta condición es solo para validar que la lista puede separarse en dos y no haya error.
+      //Entonces si len es menor o igual a 1 entonces se regresa el arreglo como está y se acabó.  
+        return arr;
+      }
+      
+      //Aquí se declaran tres constantes las cuales basicamente son la partición de la lista arr.
+      //la primer constante middle nos dará la mitad o el pivote de la misma lista
+      //la segunda constante "left" es igual a la partición (que nos da el método .slice de javascript) que va de 0 a "middle" (middle que en teoría vale 5)
+      //la tercera constante "right" es igual a la partición que resta de middle.
+      const middle = Math.floor(len / 2);
+      const left = arr.slice(0, middle);
+      const right = arr.slice(middle);
+      
+      //Aquí se declaran dos constantes cuyo valor es el resultado de lo que hicimos anteriormente, esto para partir las listas en pequeñas y listas y así.
+      //para ser sincero no entiendo aún muy bien como funciona el hecho de que esta división da 2.5 y si es que parte en sub listas las mitades ya que no se muestra de manera gráfica
+      //Y la verdad no me ha dado tiempo de checarlo, pero funciona. 
+      const leftSorted = await performMergeSort(left);
+      const rightSorted = await performMergeSort(right);
+      
+      //por cada partición se espera 1000 milisegundos
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      //Y finalmente nos regresa la unión de estas dos últimas constantes a través del método "merge" que hicimos anteriormente a este.
+      return merge(leftSorted, rightSorted);
+    };
+    //Se declara la constante "sortedArray" la cual es igual al resultado del método/función performMergeSort pasandole en sus argumentos nuestra lista de libros actual.
+    const sortedArray = await performMergeSort(sortedLibros);
     
-        const middle = Math.floor(len / 2);
-        const left = arr.slice(0, middle);
-        const right = arr.slice(middle);
-    
-        const leftSorted = await performMergeSort(left);
-        const rightSorted = await performMergeSort(right);
-    
+    //Actualizamos nuestra lista con la constante anterior y tendremos como resultado la misma pero ordenada. 
+    setSortedLibros([...sortedArray]);
+  };
+
+  const heapSort = async () => {
+  //Se declara el método/función de flecha async-rono jeje heapSort.
+  //En este habrá otros dos métodos, algo parecido a lo que hicimos anteriormente.  
+    const heapify = async (arr, n, i) => {
+    //En el primer método/función heapify se recibirá en los argumentos tres elementos, un arreglo "arr", un número "n" que es el largo de la lista y un indice "i"
+      //Se declaran 3 variables
+      //la primera es largest el cual es igual al elemento "i" que recibimos en los argumentos.
+      //el segundo es left que tendría como valor la operación que se muestra y lo mismo sucede con la variable "right"
+      let largest = i;
+      let left = 2 * i + 1;
+      let right = 2 * i + 2;
+
+      if (left < n && arr[left].id > arr[largest].id) {
+      //Ahora, basicamente toda la función es a base de tres condiciones, por ejemplo en esta, es;
+      //Si "left" es menor a n y el "id" del elemento en la posición/indice de valor "left" es mayor a el "id" del elemento con el indice/posición con el valor largest, entonces:
+        //Si esta condición se cumple, entonces el valor de largest pasa a ser el valor de left.
+        largest = left;
+      }
+
+      if (right < n && arr[right].id > arr[largest].id) {
+      //Aquí basicamente es lo msimo que lo anterior pero usando el valor de "right"  
+        largest = right;
+      }
+
+      if (largest !== i) {
+      //Si largest NO ES IGUAL a "i", entonces:
+        //Si la condición anterior se cumple se cambian los siguiente elementos de posición
+        [arr[i], arr[largest]] = [arr[largest], arr[i]];
+
+        //Esto es para actualizar la lista cada que se hace este cambio en la misma. 
+        setSortedLibros([...arr]);
+
+        // Espera y promesa de 1000 milisegundos para resolver y seguir con los siguientes pasos
         await new Promise(resolve => setTimeout(resolve, 1000));
-    
-        return merge(leftSorted, rightSorted);
-      };
-    
-      const sortedArray = await performMergeSort(sortedLibros);
-    
-      // Update state to trigger re-render after sorting is complete
-      setSortedLibros([...sortedArray]);
+        //Terminada la espera se ejecuta de manera recursiva la misma función
+        await heapify(arr, n, largest);
+      }
     };
 
-    const heapSort = async () => {
-      const heapify = async (arr, n, i) => {
-        let largest = i;
-        let left = 2 * i + 1;
-        let right = 2 * i + 2;
+    const performHeapSort = async () => {
+    //Se crea este método/función de flecha async-rono jeje x4, donde utilizaremoz también el método anterior
+      //Se declara la constante n = al largo de nuestro arreglo sortedLibros.  
+      const n = sortedLibros.length;
 
-        if (left < n && arr[left].id > arr[largest].id) {
-          largest = left;
-        }
+      for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+      //En este for, la lista se recorrerá a partir del indice con valor de la división de (n entre 2) - 1. O sea solo recorre la mitad del largo del arreglo/lista  
+      //Y cada que sucede esto se espera que haga los saltos deseado con el método anterior, recibiendo como parametros, nuestra lista de libros, el largo de la misma y el indice "i" del for actual  
+        await heapify(sortedLibros, n, i);
+      }
 
-        if (right < n && arr[right].id > arr[largest].id) {
-          largest = right;
-        }
+      for (let i = n - 1; i > 0; i--) {
+        //Ahora en este for usaremos el largo completo de la lista de libros. Donde haremos el cambio deseado a partir del elemento en el indice 0.
+        [sortedLibros[0], sortedLibros[i]] = [sortedLibros[i], sortedLibros[0]];
 
-        if (largest !== i) {
-          // Swap libros
-          [arr[i], arr[largest]] = [arr[largest], arr[i]];
+        //Se actualiza el estado por cada paso
+        setSortedLibros([...sortedLibros]);
 
-          // Update state to trigger re-render after each swap
-          setSortedLibros([...arr]);
+        //Hacemos espera de 1000 milisegundos 
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        //Y cada que sucede esto, usamos este método pasando los siguiente parametros de comparación.
+        await heapify(sortedLibros, i, 0);
+      }
+    };
 
-          // Wait for 1000 miliseconds
-          await new Promise(resolve => setTimeout(resolve, 1000));
-
-          await heapify(arr, n, largest);
-        }
-      };
-
-      const performHeapSort = async () => {
-        const n = sortedLibros.length;
-
-        for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
-          await heapify(sortedLibros, n, i);
-        }
-
-        for (let i = n - 1; i > 0; i--) {
-          // Swap libros
-          [sortedLibros[0], sortedLibros[i]] = [sortedLibros[i], sortedLibros[0]];
-
-          // Update state to trigger re-render after each swap
-          setSortedLibros([...sortedLibros]);
-
-          // Wait for 1000 miliseconds
-          await new Promise(resolve => setTimeout(resolve, 1000));
-
-          await heapify(sortedLibros, i, 0);
-        }
-      };
-
-      // Start the heap sort process
+      //Con esto volvemos a iniciar todos estos pasos hasta que se complete el ordenamiento.
       await performHeapSort();
     };
     //Parte de Rubén
