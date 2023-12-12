@@ -57,7 +57,7 @@ function App() {
           margin: 20  
           }}
       >
-        ¡Aquí podremos ver un conjunto de libros, personalmente, son mis favoritos!
+        ¡Aquí podremos ver un conjunto de libros, personalmente, son nuestros favoritos!
         <br />
         <br />
         <Button variant="text " onClick={() => setOpenLibros(!openLibros)}>Libros</Button>  
@@ -105,6 +105,8 @@ function App() {
         }}
       >
         Ahora podemos organizar estos libros con los siguientes algoritmos: 
+        <br />
+        Todos los métodos tienen por default en cada paso esperar 1000 milisegundos por lo cual hay que estar atentos cuando cambie el orden de la lista 
         <br />
         <br />
         <Ordenamientos libros={libros} />

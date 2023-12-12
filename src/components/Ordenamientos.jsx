@@ -1,4 +1,4 @@
-  import { Button, Box } from '@mui/material';
+  import { Button, Box, Divider } from '@mui/material';
   import React, { useState } from 'react';
 
   const Ordenamientos = ({ libros }) => {
@@ -9,25 +9,25 @@
     setSortedLibros([...libros]);
   };
 
-    const bubbleSort = () => {
-      const n = sortedLibros.length;
-      let tempLibros = [...sortedLibros];
-      let swapped;
+  const bubbleSort = () => {
+    const n = sortedLibros.length;
+    let tempLibros = [...sortedLibros];
+    let swapped;
 
-      let i = 0;
-      let j = 0;
+    let i = 0;
+    let j = 0;
 
-      const sortStep = () => {
-        if (i < n - 1) {
-          if (tempLibros[i].id > tempLibros[i + 1].id) {
-            // Swap libros
-            [tempLibros[i], tempLibros[i + 1]] = [tempLibros[i + 1], tempLibros[i]];
-            swapped = true;
+    const sortStep = () => {
+      if (i < n - 1) {
+        if (tempLibros[i].id > tempLibros[i + 1].id) {
+          // Swap libros
+          [tempLibros[i], tempLibros[i + 1]] = [tempLibros[i + 1], tempLibros[i]];
+          swapped = true;
 
-            // Update state to trigger re-render
-            setSortedLibros([...tempLibros]);
-          }
-          i++;
+          // Update state to trigger re-render
+          setSortedLibros([...tempLibros]);
+        }
+        i++;
         } else {
           i = 0;
           if (!swapped) {
@@ -259,7 +259,7 @@
       }
     };   
 
-    const radixSort = async () => {
+  /*  const radixSort = async () => {
       const getMax = () => {
         return Math.max(...sortedLibros.map(libro => libro.id));
       };
@@ -294,14 +294,12 @@
         await countingSort(exp);
       }
     };
+    */
     
-    
-    
-
     return (
       <div style={{ display: 'flex', flexDirection: 'row', padding: 10 }}>
         <div>
-          <Button variant="contained" onClick={resetLibros}>
+          <Button variant="contained" color="success" onClick={resetLibros}>
             Restaurar Lista Original
           </Button>  
           <br />    
@@ -340,12 +338,19 @@
             Ordenar con Bucket Sort
           </Button>
           <br />
+          Este método no funciona como debería, hay un error en el render, 
           <br />
-          <Button variant="contained" onClick={radixSort}>
+          aun así, arregla la lista en pares de buckets, solo a veces
+          <br />
+          al final regresa la lista a como estaba desordenada.
+          <br />
+          <br />
+          <Button variant="outlined" href="https://www.youtube.com/watch?v=7RGQO02NYVY">
             Ordenar con Radix Sort
           </Button>
+          <br />
+          Este nunca nos jaló, pero si le da click se llevará una sorpresa. 
         </div>
-
         <Box mt={2} style={{ marginLeft: 50}}>
           
           {sortedLibros.map((libro) => (
