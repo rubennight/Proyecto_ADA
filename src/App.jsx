@@ -44,7 +44,7 @@ function App() {
         <h3>Grupo: D</h3>
         <h3>Modalidad: Semiescolarizado</h3>
         <h3>Profesor: Vanessa del Rosario Alcala Ramirez</h3>
-        <h3>Equipo: Rubén Jiménez Navarro y Adán Gurrola Grijalva</h3>         
+        <h3>Equipo: Rubén Jiménez Navarro, Adán Gurrola Grijalva y Manuel de Jesús Galván Contreras.</h3>         
       </Box>
       
 
@@ -60,7 +60,7 @@ function App() {
         ¡Aquí podremos ver un conjunto de libros, personalmente, son nuestros favoritos!
         <br />
         <br />
-        <Button variant="text " onClick={() => setOpenLibros(!openLibros)}>Libros</Button>  
+        <Button variant="outlined" onClick={() => setOpenLibros(!openLibros)}>Libros</Button>  
         <br />
         <br />
         <Collapse in={openLibros}>

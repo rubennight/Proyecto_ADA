@@ -1,98 +1,116 @@
   import { Button, Box, Divider } from '@mui/material';
   import React, { useState } from 'react';
 
-  const Ordenamientos = ({ libros }) => {
-    const [sortedLibros, setSortedLibros] = useState([...libros]);
+//Se declara una función de flecha que recibe libros como argumento. 
+const Ordenamientos = ({ libros }) => {
+  //Se declara también un useState (estado) con una matriz [que llevará dentro una copia de la martiz libros que recibe como argumento]
+  //sortedLibros para almacenar estado
+  const [sortedLibros, setSortedLibros] = useState([...libros]);
 
-    
+  //Parte de Manuel 
   const resetLibros = () => {
+    //Esta función tiene como fin regresar a su ordenamiento (desordenado) o como originalmente nos pasaron en los argumentos { libros } de nuestra función.
     setSortedLibros([...libros]);
   };
-
+  
   const bubbleSort = () => {
-    const n = sortedLibros.length;
-    let tempLibros = [...sortedLibros];
-    let swapped;
+    //Se hace una función de flecha que manejará el ordenamiento del bubbleSort
+    const n = sortedLibros.length;       //Se declara la constante n la cual tiene como valor el largo de nuestra lista para así poder manejar la cantidad de pasos a hacer.
+    let tempLibros = [...sortedLibros];  //Se declara una variable tempLibros la cual es una copia temporal de la lista sortedLibros para manejar los cambios en la misma en cada paso.
+    let swapped;                         //Una variable de tipo boolean que cambiará de lugar los elementos de la lista en cada paso 
 
-    let i = 0;
-    let j = 0;
+    let i = 0;                           //Se declaran dos variables que "i" y "j" las cuales manejarán los índices de los elementos de nuestra lista temporal de libros tempLibros
 
     const sortStep = () => {
-      if (i < n - 1) {
+      //Se declara un método/función que representa lo que hará en cada pasó el Bubble Sort.
+      if (i < n - 1) {  
+      //Si la variable "i" es menor a la variable "n" - 1 (el -1 por la convención progrmatica de 0, 1, 2, 3, etc) entonces...  
         if (tempLibros[i].id > tempLibros[i + 1].id) {
-          // Swap libros
+        //...Si la condición anterior se cumple, entonces iniciamos otra condicón
+        //donde si el "id" del elemento en el indice "i" de la lista temporal es más grande que el "id" del elemento siguiente (de ahí el + 1) de la misma lista, entonces...
+        //Si se cumple esta condición se intercambia el orden de nuestra lista temporal de la siguiente manera...
           [tempLibros[i], tempLibros[i + 1]] = [tempLibros[i + 1], tempLibros[i]];
+          //swapped cambia su valor a true, para que lo anterior pueda ser cambiado
           swapped = true;
 
-          // Update state to trigger re-render
+          //Se actualiza el estado original de sorteLibros con nuestra lista temporal que ya tiene un cambio en la misma
           setSortedLibros([...tempLibros]);
         }
+        //se suma +1 en la variable "i"para avanzar al siguiente elemento de la lista
         i++;
-        } else {
-          i = 0;
-          if (!swapped) {
-            // Si no hubo intercambios, el arreglo está ordenado
-            setShowSteps(true);
-            return;
-          }
-          swapped = false;
-          j++;
+      } else {
+      //Ahora, si nuestra primer condición no se cumplía, la variable "i" regresa al valor 0, para volver a recorrer la lista.
+        i = 0;
+        if (!swapped) {
+        // Si no hubo intercambios, el arreglo está ordenado
+          return;
+        }
+        swapped = false;
         }
 
-        // Siguiente iteración
+        // Siguiente iteración, y con un retardo para que se note el cambio en la misma lista
         setTimeout(sortStep, 1000); // Ajusta el retardo según sea necesario
-      };
-
-      // Comienza el proceso de ordenamiento
-      sortStep();
     };
 
-    const insertionSort = () => {
-      let tempLibros = [...sortedLibros];
+    // Comienza el proceso de ordenamiento una vez más hasta que la lista este ordenda. 
+    sortStep();
+  };
 
-      const performInsertionSort = async () => {
-        for (let i = 1; i < tempLibros.length; i++) {
-          let j = i - 1;
-          const currentLibro = tempLibros[i];
+  //Parte de Adán
+  const insertionSort = () => {
+  //Iniciamos un nuevo método de flecha para el Insertion Sort.  
+    let tempLibros = [...sortedLibros]; //Se declara una variable tempLibros la cual es una copia temporal de la lista sortedLibros para manejar los cambios en la misma en cada paso.
 
-          while (j >= 0 && tempLibros[j].id > currentLibro.id) {
-            // Swap libros
-            tempLibros[j + 1] = tempLibros[j];
-            tempLibros[j] = currentLibro;
+    const performInsertionSort = async () => {
+    //Se declara dentro una función nueva con el detalle de que esta es asincrona   
+    //Esto significa que esperará una promesa.
+      for (let i = 1; i < tempLibros.length; i++) {
+      //Se inicia un for simple para recorrer el largo de la lista, donde por cada elemento:
+      //Se declara una variable "j" con un valor de "i - 1"
+      //se declara una constante currentLibro (o libro actual) que representa un elemento con el indice "i" que guardaremos durante la iteración y usaremos para compara el resto de los elementos en la lista 
+        let j = i - 1;
+        const currentLibro = tempLibros[i];
 
-            // Update state to trigger re-render after each swap
-            setSortedLibros([...tempLibros]);
+        while (j >= 0 && tempLibros[j].id > currentLibro.id) {
+        //Mientras la variable "j" sea mayor o igual a 0 y el "id" del elemento con el indice "j" sea mayor a el "id" del elemento que guardamos temporalmente en el paso anterior, entonces hará lo siguiente:
+          //Ahora el elemento con el indice "j + 1" tendrá el valor de su elemento anterior que por defecto es el elemento con indice "j".
+          tempLibros[j + 1] = tempLibros[j];
+          //y después el elemento con indicie "j" toma el valor del elemento temporal que guardamos anteriormente
+          tempLibros[j] = currentLibro;
 
-            // Wait for 1000 miliseconds
-            await new Promise(resolve => setTimeout(resolve, 1000));
+          //Se actualiza el estado, o sea, el orden de la lista
+          setSortedLibros([...tempLibros]);
 
-            j--;
-          }
+          //Aquí esta la promesa que se espera del mismo elemento asincrono el cual esperará 1000 milisegundos para ejecutarse nuevamente.
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          //Y finalmente resta "-1" a la variable "j"
+          j--;
         }
-      };
-
-      // Start the insertion sort process
-      performInsertionSort();
+      }
     };
 
-    const mergeSort = async () => {
-      const merge = (left, right) => {
-        let result = [];
-        let leftIndex = 0;
-        let rightIndex = 0;
+    //E inicia nuevamente el proceso de inserción a la lista, hasta que esta, este completa
+    performInsertionSort();
+  };
+  
+  const mergeSort = async () => {
+    const merge = (left, right) => {
+      let result = [];
+      let leftIndex = 0;
+      let rightIndex = 0;
     
-        while (leftIndex < left.length && rightIndex < right.length) {
-          if (left[leftIndex].id < right[rightIndex].id) {
-            result.push(left[leftIndex]);
-            leftIndex++;
-          } else {
-            result.push(right[rightIndex]);
-            rightIndex++;
-          }
+      while (leftIndex < left.length && rightIndex < right.length) {
+        if (left[leftIndex].id < right[rightIndex].id) {
+          result.push(left[leftIndex]);
+          leftIndex++;
+        } else {
+          result.push(right[rightIndex]);
+          rightIndex++;
         }
+      }
     
-        return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
-      };
+      return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+    };
     
       const performMergeSort = async (arr) => {
         const len = arr.length;
@@ -170,7 +188,7 @@
       // Start the heap sort process
       await performHeapSort();
     };
-
+    //Parte de Rubén
     const quickSort = async () => {
       const partition = async (arr, low, high) => {
         const pivot = arr[high].id;
@@ -216,7 +234,7 @@
       // Start the quick sort process
       await performQuickSort(sortedLibros, 0, sortedLibros.length - 1);
     };
-    
+
     const countingSort = async () => {
       const maxId = Math.max(...sortedLibros.map(libro => libro.id));
       const countArray = new Array(maxId + 1).fill(0);
