@@ -281,7 +281,6 @@ const Ordenamientos = ({ libros }) => {
         }
       };
 
-      // Start the quick sort process
       await performQuickSort(sortedLibros, 0, sortedLibros.length - 1);
     };
 
@@ -326,43 +325,6 @@ const Ordenamientos = ({ libros }) => {
         await new Promise(resolve => setTimeout(resolve, 1000));
       }
     };   
-
-  /*  const radixSort = async () => {
-      const getMax = () => {
-        return Math.max(...sortedLibros.map(libro => libro.id));
-      };
-    
-      const countingSort = async (exp) => {
-        const n = sortedLibros.length;
-        const output = Array(n);
-        const count = Array(10).fill(0);
-    
-        sortedLibros.forEach(libro => {
-          const digit = Math.floor((libro.id / exp) % 10);
-          count[digit]++;
-        });
-    
-        for (let i = 1; i < 10; i++) {
-          count[i] += count[i - 1];
-        }
-    
-        for (let i = n - 1; i >= 0; i--) {
-          const digit = Math.floor((sortedLibros[i].id / exp) % 10);
-          output[count[digit] - 1] = { ...sortedLibros[i] };
-          count[digit]--;
-        }
-    
-        setSortedLibros(output);
-        await new Promise(resolve => setTimeout(resolve, 1000));
-      };
-    
-      const max = getMax();
-    
-      for (let exp = 1; Math.floor(max / exp) > 0; exp *= 10) {
-        await countingSort(exp);
-      }
-    };
-    */
     
     return (
       <div style={{ display: 'flex', flexDirection: 'row', padding: 10 }}>
