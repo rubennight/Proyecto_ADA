@@ -23,3 +23,12 @@ En este proyecto podremos ver:
 3. Respecto a los algoritmos restantes se tienen que mostrar paso a paso el
 ordenamiento del conjunto de datos (puede ser también con simulación o
 mostrando los pasos en “texto”).
+
+Este proyecto presenta una interfaz gráfica que ofrece visualizaciones de diversos algoritmos de ordenamiento implementados en Javascript utilizando React + Vite. El objetivo principal es mostrar de manera didáctica y efectiva cómo funcionan distintos métodos de ordenación. Además, se limita el número de datos a ordenar a un máximo de 10 para facilitar la comprensión.
+
+Metodología de Trabajo:
+El desarrollo de este proyecto fue un esfuerzo colaborativo llevado a cabo a través de reuniones virtuales en Google Meet. Cada miembro del equipo contribuyó en la lógica de implementación de los algoritmos, aprovechando el lenguaje de programación Javascript y el framework React con Vite.
+
+Queremos desearle un cierre de semestre exitoso. Que encuentre la misma alegría explorando nuestro proyecto que nosotros encontramos creándolo.
+
+¡Gracias por su atención!
